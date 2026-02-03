@@ -21,8 +21,8 @@ jobs:
 
       - name: Commit and Push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "samarb2"
+          git config --global user.email "samarb2@uic.edu"
           git add streak_log.txt
           # Only commit if there are changes
           if [[ -n $(git status -s) ]]; then
