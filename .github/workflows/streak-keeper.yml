@@ -15,19 +15,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Update Streak Log
-        run: |
-          echo "Keep alive: $(date)" >> streak_log.txt
-
-      - name: Commit and Push
+      - name: Configure Git
         run: |
           git config --global user.name "samarb2"
           git config --global user.email "samarb2@uic.edu"
+
+      - name: Commit 1
+        run: |
+          echo "Keep alive #1: $(date)" >> streak_log.txt
           git add streak_log.txt
-          # Only commit if there are changes
-          if [[ -n $(git status -s) ]]; then
-            git commit -m "chore: daily streak keep-alive"
-            git push
-          else
-            echo "No changes to commit"
-          fi
+          git commit -m "chore: daily streak keep-alive #1"
+
+      - name: Commit 2
+        run: |
+          echo "Keep alive #2: $(date)" >> streak_log.txt
+          git add streak_log.txt
+          git commit -m "chore: daily streak keep-alive #2"
+
+      - name: Commit 3
+        run: |
+          echo "Keep alive #3: $(date)" >> streak_log.txt
+          git add streak_log.txt
+          git commit -m "chore: daily streak keep-alive #3"
+
+      - name: Push all commits
+        run: git push
