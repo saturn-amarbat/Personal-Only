@@ -238,56 +238,6 @@
     <!-- Project 1 -->
     <div class="project">
       <div class="project-header">
-        <h3>MediaPulse API</h3>
-        <span class="tech-badges">C# · ASP.NET Core · PostgreSQL · JWT · xUnit</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/saturn-amarbat/mediapulse-api">github.com/saturn-amarbat/mediapulse-api</a>
-      </div>
-      <ul>
-        <li>Designed and implemented a fully versioned RESTful API (<code>/api/v1/…</code>) for
-            ingesting, tagging, and querying news article metadata using ASP.NET Core 8 Web API.</li>
-        <li>Modeled six normalized PostgreSQL tables; wrote efficient queries with parameterized
-            filters, cursor-based pagination, and partial-index hints to keep p95 latency under 40 ms
-            on 500k rows.</li>
-        <li>Secured all write endpoints with JWT bearer authentication and role-based authorization
-            via ASP.NET Core's <code>[Authorize(Roles = …)]</code> attribute.</li>
-        <li>Documented the entire surface area with Swagger/OpenAPI annotations; zero undocumented
-            endpoints at merge time.</li>
-        <li>Achieved &gt;85% test coverage with xUnit + Testcontainers-based integration tests that
-            spin up a real PostgreSQL instance in Docker.</li>
-        <li>Integrated a third-party sentiment-analysis API (with timeout, retry policy via Polly,
-            and structured logging via Serilog).</li>
-      </ul>
-    </div>
-
-    <!-- Project 2 -->
-    <div class="project">
-      <div class="project-header">
-        <h3>CampusEvents Service</h3>
-        <span class="tech-badges">Java · Spring Boot · SQL Server · OAuth 2.0 · JUnit 5</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/saturn-amarbat/campus-events-service">github.com/saturn-amarbat/campus-events-service</a>
-      </div>
-      <ul>
-        <li>Built a Spring Boot microservice exposing REST endpoints for campus event CRUD,
-            registration management, and a search/filter API consumed by a Next.js frontend.</li>
-        <li>Used Spring Data JPA with Hibernate against SQL Server; wrote custom JPQL queries for
-            multi-criteria event search and bulk-registration transactions.</li>
-        <li>Integrated Google OAuth 2.0 (via Spring Security) for SSO; stored only opaque
-            refresh-tokens server-side to minimize secret exposure.</li>
-        <li>Defined shared API contracts (OpenAPI YAML) up-front with the frontend team, reducing
-            integration defects during sprint demos.</li>
-        <li>Wrote JUnit 5 unit tests with Mockito for service layer; integration tests with
-            Spring's <code>@SpringBootTest</code> and an in-memory H2 profile.</li>
-        <li>Set up GitHub Actions CI (build → test → lint) with conventional-commit enforcement.</li>
-      </ul>
-    </div>
-
-    <!-- Project 3 -->
-    <div class="project">
-      <div class="project-header">
         <h3>TaskFlow – Background Job Scheduler</h3>
         <span class="tech-badges">C# · Hangfire · ASP.NET Core · SQLite · Serilog</span>
       </div>
@@ -306,7 +256,7 @@
       </ul>
     </div>
 
-    <!-- Project 4 -->
+    <!-- Project 2 -->
     <div class="project">
       <div class="project-header">
         <h3>UIC Campus Map Router</h3>
@@ -325,7 +275,7 @@
       </ul>
     </div>
 
-    <!-- Project 5 -->
+    <!-- Project 3 -->
     <div class="project">
       <div class="project-header">
         <h3>HashMap Implementation</h3>
@@ -344,7 +294,7 @@
       </ul>
     </div>
 
-    <!-- Project 6 -->
+    <!-- Project 4 -->
     <div class="project">
       <div class="project-header">
         <h3>Personal Project Memory Allocator</h3>
@@ -364,7 +314,7 @@
       </ul>
     </div>
 
-    <!-- Project 7 -->
+    <!-- Project 5 -->
     <div class="project">
       <div class="project-header">
         <h3>trade-ops – Stock Momentum Scanner</h3>
