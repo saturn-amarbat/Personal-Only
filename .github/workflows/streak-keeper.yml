@@ -1,0 +1,56 @@
+name: Daily Streak Keeper
+
+on:
+  schedule:
+    - cron: '0 7,11,15,19,23 * * *' # Runs multiple times/day for randomization
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  contents: write
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update Streak Log and Commit
+        run: |
+          # Check if today is already logged (prevent duplicate runs)
+          TODAY=$(date +'%a %b %d')
+          if grep -q "$TODAY" streak_log.txt; then
+            echo "Already committed today ($TODAY). Skipping."
+            exit 0
+          fi
+
+          # Randomization Logic
+          HOUR=$(date +%H)
+          # 20% chance to run in any given slot, unless it's the last slot (23h) where we force it.
+          # Random number 0-4 (5 possibilities). If 0, run.
+          if [ "$HOUR" -lt 23 ] && [ $((RANDOM % 5)) -ne 0 ]; then
+             echo "Randomly skipping this time slot. Will try again later."
+             exit 0
+          fi
+
+          # Add a random delay (0-15 minutes) to vary the exact timestamp
+          SLEEP_SEC=$((RANDOM % 900))
+          echo "Sleeping for $SLEEP_SEC seconds..."
+          sleep $SLEEP_SEC
+
+          echo "Keep alive 1: $(date)" >> streak_log.txt
+          git config --global user.name "samarb2"
+          git config --global user.email "samarb2@uic.edu"
+          git add streak_log.txt
+          if [[ -n $(git status -s) ]]; then
+            git commit -m "chore: daily streak keep-alive (1/2)"
+            git push
+          fi
+
+          echo "Keep alive 2: $(date)" >> streak_log.txt
+          if [[ -n $(git status -s) ]]; then
+            git commit -m "chore: daily streak keep-alive (2/2)"
+            git push
+          else
+            echo "No changes to commit for second commit"
+          fi
