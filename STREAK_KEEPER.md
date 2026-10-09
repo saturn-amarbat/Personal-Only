@@ -4,7 +4,7 @@ This document explains the "Daily Streak Keeper" workflow, located in `.github/w
 
 ## Purpose
 
-The primary goal of this workflow is to automatically make two small commits to your repository each day. This ensures your GitHub contribution streak remains active, even if you forget to make manual commits. The commits are made at randomized times to minimize the impression of automated activity.
+The primary goal of this workflow is to automatically make a small number of commits to your repository each day. This ensures your GitHub contribution streak remains active, even if you forget to make manual commits. The commits are made at randomized times to minimize the impression of automated activity.
 
 ## Technology Used
 
@@ -31,11 +31,11 @@ The workflow operates based on a schedule and internal logic to achieve its goal
 4.  **Random Delay:**
     *   If the workflow decides to proceed (either by random chance or by being the forced last run), it introduces a random delay (between 0 and 15 minutes) before executing the commit commands. This further randomizes the exact minute of the commit, making the activity appear more natural.
 
-5.  **Two-Commit Mechanism:**
-    *   After any checks and delays, the workflow proceeds to make **two separate commits**.
-    *   It appends a unique "Keep alive 1" entry to `streak_log.txt`, commits this change, and pushes it to the repository.
-    *   Immediately after, it appends a "Keep alive 2" entry, commits this second change, and pushes it.
-    *   Each commit uses specific messages: "chore: daily streak keep-alive (1/2)" and "chore: daily streak keep-alive (2/2)".
+5.  **Weighted Commit Count Randomization:**
+    *   After any checks and delays, the workflow chooses a random commit count between **1 and 5**.
+    *   A non-linear (squared) random transform is used so lower counts (1–3) happen much more frequently, while 4 and especially 5 are rarer.
+    *   For each selected commit, it appends a unique "Keep alive N" entry to `streak_log.txt`, commits, and pushes.
+    *   Between commits, the workflow adds a short random pause to vary commit spacing.
 
 ## Key Files
 
@@ -49,5 +49,5 @@ The workflow operates based on a schedule and internal logic to achieve its goal
 *   **Manual Trigger:** You can manually trigger the workflow at any time from the "Actions" tab of your repository on GitHub, by selecting the "Daily Streak Keeper" workflow and clicking "Run workflow".
 *   **Customization:**
     *   To adjust the scheduled times, modify the `cron:` entry in `.github/workflows/streak-keeper.yml`.
-    *   To change the number of commits or their messages, edit the `run:` section within the `Update Streak Log and Commit` step.
+    *   To change commit count behavior or commit messages, edit the `run:` section within the `Update Streak Log and Commit` step.
     *   To modify the randomization probability or sleep delay, adjust the bash logic within the `run:` section.
