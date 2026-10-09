@@ -38,19 +38,35 @@ jobs:
           echo "Sleeping for $SLEEP_SEC seconds..."
           sleep $SLEEP_SEC
 
-          echo "Keep alive 1: $(date)" >> streak_log.txt
           git config --global user.name "samarb2"
           git config --global user.email "samarb2@uic.edu"
-          git add streak_log.txt
-          if [[ -n $(git status -s) ]]; then
-            git commit -m "chore: daily streak keep-alive (1/2)"
-            git push
-          fi
 
-          echo "Keep alive 2: $(date)" >> streak_log.txt
-          if [[ -n $(git status -s) ]]; then
-            git commit -m "chore: daily streak keep-alive (2/2)"
-            git push
-          else
-            echo "No changes to commit for second commit"
+          # Generate 1..5 commits with a non-linear weighted distribution.
+          # Squaring a uniform 30-bit random value biases toward lower counts,
+          # making 4-5 significantly less frequent than 1-3.
+          RAND_MAX=1073741823
+          RAND_30=$(((RANDOM << 15) | RANDOM))
+          SKEWED=$((RAND_30 * RAND_30 / RAND_MAX))
+          COMMIT_COUNT=$((1 + (SKEWED * 5 / RAND_MAX)))
+          if [ "$COMMIT_COUNT" -gt 5 ]; then
+            COMMIT_COUNT=5
           fi
+          echo "Will create $COMMIT_COUNT keep-alive commit(s)."
+
+          for i in $(seq 1 "$COMMIT_COUNT"); do
+            echo "Keep alive $i: $(date -u +'%a %b %d %H:%M:%S UTC %Y')" >> streak_log.txt
+            git add streak_log.txt
+
+            if [[ -n $(git status -s) ]]; then
+              git commit -m "chore: daily streak keep-alive ($i/$COMMIT_COUNT)"
+              git push
+            else
+              echo "No changes to commit for commit $i/$COMMIT_COUNT"
+            fi
+
+            if [ "$i" -lt "$COMMIT_COUNT" ]; then
+              NEXT_DELAY_SEC=$((30 + (RANDOM % 271)))
+              echo "Sleeping $NEXT_DELAY_SEC seconds before next commit..."
+              sleep "$NEXT_DELAY_SEC"
+            fi
+          done
